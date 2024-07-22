@@ -33,12 +33,12 @@ variable "sku" {
   description = "The SKU Name for the static web app."
   default     = "Free"
   validation {
-    condition = contains(["Free", "Standard"], var.sku)
+    condition     = contains(["Free", "Standard"], var.sku)
     error_message = "The SKU has to be one of 'Free' or 'Standard'."
   }
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "The default tags for Azure resources."
 }
