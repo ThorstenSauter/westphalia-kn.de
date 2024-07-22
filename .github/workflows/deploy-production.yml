@@ -1,0 +1,80 @@
+name: Deploy to production environment
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  apply-production:
+    name: Apply production environment
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Terraform apply
+        uses: ThorstenSauter/terraform-actions/apply@v1
+        with:
+          terraform-version: ${{ vars.TERRAFORM_VERSION }}
+          infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
+          resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
+          storage-account: ${{ vars.TF_BACKEND_STORAGE_ACCOUNT_NAME }}
+          container: ${{ vars.TF_BACKEND_STATE_CONTAINER_NAME }}
+          state-file: ${{ vars.TF_BACKEND_STATE_FILE_NAME }}
+
+  deploy:
+    name: Deploy to production Azure Static Web App
+    needs:
+      - apply-production
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Terraform init
+        uses: ThorstenSauter/terraform-actions/init@v1
+        with:
+          terraform-version: ${{ vars.TERRAFORM_VERSION }}
+          infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
+          resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
+          storage-account: ${{ vars.TF_BACKEND_STORAGE_ACCOUNT_NAME }}
+          container: ${{ vars.TF_BACKEND_STATE_CONTAINER_NAME }}
+          state-file: ${{ vars.TF_BACKEND_STATE_FILE_NAME }}
+      - name: Terraform apply refresh only
+        working-directory: ${{ vars.TF_WORKING_DIRECTORY }}
+        run: terraform apply -refresh-only -auto-approve -input=false
+      - name: Retrieve deployment token
+        id: token-retrieval
+        working-directory: ${{ vars.TF_WORKING_DIRECTORY }}
+        run: |
+          token=$(terraform output -raw deployment_token)
+          echo "::add-mask::$token"
+          echo "deployment-token=$token" >> "$GITHUB_OUTPUT"
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.token-retrieval.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/src"
+          skip_api_build: true
+          skip_app_build: true

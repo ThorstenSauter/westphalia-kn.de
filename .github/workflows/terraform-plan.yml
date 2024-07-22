@@ -1,0 +1,55 @@
+﻿name: Terraform validate and plan
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Terraform configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate Terraform configuration
+        uses: ThorstenSauter/terraform-actions/validate@v1
+        with:
+          terraform-version: ${{ vars.TERRAFORM_VERSION }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          infra-directory: ${{ vars.INFRA_DIRECTORY }}
+
+  plan-production:
+    name: Plan production environment
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
+      ENVIRONMENT_NAME: Production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Terraform plan
+        uses: ThorstenSauter/terraform-actions/plan@v1
+        with:
+          environment-name: ${{ env.ENVIRONMENT_NAME }}
+          terraform-version: ${{ vars.TERRAFORM_VERSION }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
+          resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
+          storage-account: ${{ vars.TF_BACKEND_STORAGE_ACCOUNT_NAME }}
+          container: ${{ vars.TF_BACKEND_STATE_CONTAINER_NAME }}
+          state-file: ${{ vars.TF_BACKEND_STATE_FILE_NAME }}
