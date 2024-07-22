@@ -1,0 +1,44 @@
+variable "app_name" {
+  type        = string
+  description = "The application name used in created resource names."
+}
+
+variable "primary_custom_domain_name" {
+  type        = string
+  description = "The primary custom domain name for the ingress and the managed certificate."
+}
+
+variable "env" {
+  type        = string
+  description = "The shorthand name of the environment the infrastructure is deployed to."
+}
+
+variable "resource_id" {
+  type        = string
+  description = "The id appended to resource names in order to make them unique."
+}
+
+variable "resource_group_name" {
+  type        = string
+  description = "The name of the resource group to deploy into."
+}
+
+variable "secondary_custom_domain_name" {
+  type        = string
+  description = "The secondary custom domain name for the ingress and the managed certificate."
+}
+
+variable "sku" {
+  type        = string
+  description = "The SKU Name for the static web app."
+  default     = "Free"
+  validation {
+    condition     = contains(["Free", "Standard"], var.sku)
+    error_message = "The SKU has to be one of 'Free' or 'Standard'."
+  }
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "The default tags for Azure resources."
+}
