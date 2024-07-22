@@ -14,7 +14,7 @@ resource "azurerm_static_web_app" "main" {
 resource "azurerm_static_web_app_custom_domain" "primary" {
   static_web_app_id = azurerm_static_web_app.main.id
   domain_name       = var.primary_custom_domain_name
-  validation_type   = "cname-delegation"
+  validation_type   = "dns-txt-token"
 }
 
 resource "azurerm_static_web_app_custom_domain" "secondary" {
