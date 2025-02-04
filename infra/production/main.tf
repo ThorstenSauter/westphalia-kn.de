@@ -9,6 +9,13 @@ resource "azurerm_static_web_app" "main" {
   sku_tier            = var.sku
   sku_size            = var.sku
   tags                = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      repository_branch,
+      repository_url
+    ]
+  }
 }
 
 resource "azurerm_static_web_app_custom_domain" "primary" {
