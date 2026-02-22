@@ -26,7 +26,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Terraform apply
-        uses: ThorstenSauter/terraform-actions/apply@8b37221bd9829209d81ed7c3a1b3f504290f3a77 # v1.4.6
+        uses: ThorstenSauter/terraform-actions/apply@22e68c7373573001738b5268afe4fbf30e3ba2a1 # v1.4.7
         with:
           terraform-version: ${{ vars.TERRAFORM_VERSION }}
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
@@ -51,7 +51,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Terraform init
-        uses: ThorstenSauter/terraform-actions/init@8b37221bd9829209d81ed7c3a1b3f504290f3a77 # v1.4.6
+        uses: ThorstenSauter/terraform-actions/init@22e68c7373573001738b5268afe4fbf30e3ba2a1 # v1.4.7
         with:
           terraform-version: ${{ vars.TERRAFORM_VERSION }}
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
