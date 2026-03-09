@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Validate Terraform configuration
-        uses: ThorstenSauter/terraform-actions/validate@22e68c7373573001738b5268afe4fbf30e3ba2a1 # v1.4.7
+        uses: ThorstenSauter/terraform-actions/validate@8960b0a9d72e8aec4bb6601282f1694174a1d06a # v1.5.0
         with:
           terraform-version: ${{ vars.TERRAFORM_VERSION }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Terraform plan
-        uses: ThorstenSauter/terraform-actions/plan@22e68c7373573001738b5268afe4fbf30e3ba2a1 # v1.4.7
+        uses: ThorstenSauter/terraform-actions/plan@8960b0a9d72e8aec4bb6601282f1694174a1d06a # v1.5.0
         with:
           environment-name: ${{ env.ENVIRONMENT_NAME }}
           terraform-version: ${{ vars.TERRAFORM_VERSION }}
