@@ -42,3 +42,8 @@ variable "tags" {
   type        = map(string)
   description = "The default tags for Azure resources."
 }
+
+variable "cloudflare_zone_name" {
+  type        = string
+  description = "The Cloudflare zone name (domain) used to look up the zone ID."
+}
