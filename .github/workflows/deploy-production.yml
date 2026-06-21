@@ -24,7 +24,7 @@ jobs:
       ARM_USE_OIDC: true
     steps:
       - name: Checkout repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Terraform apply
         uses: ThorstenSauter/terraform-actions/apply@8960b0a9d72e8aec4bb6601282f1694174a1d06a # v1.5.0
         with:
@@ -49,7 +49,7 @@ jobs:
       ARM_USE_OIDC: true
     steps:
       - name: Checkout repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Terraform init
         uses: ThorstenSauter/terraform-actions/init@8960b0a9d72e8aec4bb6601282f1694174a1d06a # v1.5.0
         with:
