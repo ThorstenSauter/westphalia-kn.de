@@ -5,5 +5,13 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.77.0"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.21.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.14.0"
+    }
   }
 }

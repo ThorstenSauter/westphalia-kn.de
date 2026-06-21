@@ -38,6 +38,7 @@ jobs:
       ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       ARM_USE_AZUREAD: true
       ARM_USE_OIDC: true
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       ENVIRONMENT_NAME: Production
     steps:
       - name: Checkout repository

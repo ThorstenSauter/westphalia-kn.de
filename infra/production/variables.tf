@@ -18,9 +18,9 @@ variable "resource_id" {
   description = "The id appended to resource names in order to make them unique."
 }
 
-variable "resource_group_name" {
+variable "location" {
   type        = string
-  description = "The name of the resource group to deploy into."
+  description = "The Azure region to deploy resources into."
 }
 
 variable "secondary_custom_domain_name" {
@@ -41,4 +41,9 @@ variable "sku" {
 variable "tags" {
   type        = map(string)
   description = "The default tags for Azure resources."
+}
+
+variable "cloudflare_zone_name" {
+  type        = string
+  description = "The Cloudflare zone name (domain) used to look up the zone ID."
 }
