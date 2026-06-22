@@ -47,6 +47,10 @@ resource "cloudflare_dns_record" "primary_validation" {
   type    = "TXT"
   content = azurerm_static_web_app_custom_domain.primary.validation_token
   ttl     = 3600
+
+  lifecycle {
+    ignore_changes = [content]
+  }
 }
 
 # Cloudflare flattens this CNAME at the apex to A/AAAA records automatically.
