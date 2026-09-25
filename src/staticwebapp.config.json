@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "route": "/*",
+      "redirect": "https://twv-westphalia.de",
+      "statusCode": 301
+    }
+  ]
+}

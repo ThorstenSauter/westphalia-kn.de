@@ -5,7 +5,7 @@ variable "app_name" {
 
 variable "primary_custom_domain_name" {
   type        = string
-  description = "The primary custom domain name for the ingress and the managed certificate."
+  description = "The apex custom domain bound to the static web app, validated via DNS TXT token."
 }
 
 variable "env" {
@@ -25,7 +25,7 @@ variable "location" {
 
 variable "secondary_custom_domain_name" {
   type        = string
-  description = "The secondary custom domain name for the ingress and the managed certificate."
+  description = "The subdomain (e.g. www) bound to the static web app, validated via CNAME delegation."
 }
 
 variable "sku" {
