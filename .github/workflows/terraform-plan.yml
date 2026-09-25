@@ -1,4 +1,4 @@
-﻿name: Terraform validate and plan
+name: Terraform validate and plan
 
 on:
   pull_request:
