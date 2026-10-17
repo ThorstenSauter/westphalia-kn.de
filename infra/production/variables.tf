@@ -3,11 +3,6 @@ variable "app_name" {
   description = "The application name used in created resource names."
 }
 
-variable "primary_custom_domain_name" {
-  type        = string
-  description = "The apex custom domain bound to the static web app, validated via DNS TXT token."
-}
-
 variable "env" {
   type        = string
   description = "The shorthand name of the environment the infrastructure is deployed to."
@@ -21,11 +16,6 @@ variable "resource_id" {
 variable "location" {
   type        = string
   description = "The Azure region to deploy resources into."
-}
-
-variable "secondary_custom_domain_name" {
-  type        = string
-  description = "The subdomain (e.g. www) bound to the static web app, validated via CNAME delegation."
 }
 
 variable "sku" {
