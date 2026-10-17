@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate Terraform configuration
         uses: ThorstenSauter/terraform-actions/validate@311067e431cc591a0fafc0cbf921851c546a3712 # v1.8.0
         with:
@@ -41,7 +41,7 @@ jobs:
       ENVIRONMENT_NAME: Production
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Terraform plan
         uses: ThorstenSauter/terraform-actions/plan@311067e431cc591a0fafc0cbf921851c546a3712 # v1.8.0
         with:
