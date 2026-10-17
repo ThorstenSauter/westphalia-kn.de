@@ -14,15 +14,13 @@ Redirects every request on the legacy domain `westphalia-kn.de` to `https://twv-
 
 ## Infrastructure architecture
 
-`infra/production/main.tf` wires Azure and Cloudflare together:
+`infra/production/main.tf` creates the resource group and calls the shared module [`ThorstenSauter/cloudflare-azure-static-web-app`](https://github.com/ThorstenSauter/cloudflare-azure-static-web-app) (pinned with `?ref=X.Y.Z`, bumped by Renovate). The module owns the Azure Static Web App (Free SKU by default, `repository_*` ignored because CI deploys the content), the Cloudflare DNS records (DNS-only, zone looked up by `cloudflare_zone_name`) and both custom domains: the apex with `dns-txt-token` validation and a CNAME Cloudflare flattens, and `www` with `cname-delegation` after a 120s propagation wait. Change domain or DNS behaviour in the module, not here. Resource names follow `<type>-${app_name}-${env}-${resource_id}`.
 
-- An Azure resource group + `azurerm_static_web_app` (Free SKU by default) hosts the page. Resource names follow `<type>-${app_name}-${env}-${resource_id}`.
-- DNS lives in Cloudflare (zone looked up by name). Records are **not proxied** (`proxied = false`).
-- Apex domain (`westphalia-kn.de`) uses `dns-txt-token` validation: Azure produces a token, Terraform writes it to a Cloudflare TXT record (`ignore_changes = [content]` so later token rotation doesn't churn), and a CNAME at the apex is flattened by Cloudflare.
-- `www` subdomain uses `cname-delegation` validation, which depends on a `time_sleep` (120s) after the DNS records are created to allow propagation.
-- The Static Web App's `api_key` is exposed as the sensitive output `deployment_token`, which the deploy workflow reads to upload `src/`.
+`moved.tf` maps the resources this repo used to define directly onto the module's addresses. Don't delete it, and don't rename the module call (`module.static_web_app`): either would make Terraform recreate the Static Web App and its custom domains.
 
-Providers: `hashicorp/azurerm`, `cloudflare/cloudflare`, `hashicorp/time` (versions pinned with `~>` in `terraform.tf`; Renovate bumps them).
+The `deployment_token` output is the Static Web App's API key. CI reads it with `terraform output -raw deployment_token` to deploy the site, so don't remove or rename it.
+
+Provider versions (`azurerm`, `cloudflare`, `time`) are pinned in `terraform.tf` and bumped by Renovate; the module only sets lower bounds.
 
 ## Commands
 
