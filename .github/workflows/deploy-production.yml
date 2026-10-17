@@ -29,7 +29,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Terraform apply
         uses: ThorstenSauter/terraform-actions/apply@311067e431cc591a0fafc0cbf921851c546a3712 # v1.8.0
         with:
@@ -54,7 +54,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Terraform init
         uses: ThorstenSauter/terraform-actions/init@311067e431cc591a0fafc0cbf921851c546a3712 # v1.8.0
         with:
