@@ -65,7 +65,7 @@ jobs:
           state-file: ${{ vars.TF_BACKEND_STATE_FILE_NAME }}
       - name: Terraform apply refresh only
         working-directory: ${{ vars.TF_WORKING_DIRECTORY }}
-        run: terraform apply -refresh-only -auto-approve -input=false
+        run: terraform apply -refresh-only -auto-approve -input=false -lock-timeout=10m
       - name: Retrieve deployment token
         id: token-retrieval
         working-directory: ${{ vars.TF_WORKING_DIRECTORY }}
