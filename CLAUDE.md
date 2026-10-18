@@ -16,7 +16,7 @@ Redirects every request on the legacy domain `westphalia-kn.de` to `https://twv-
 
 `infra/production/main.tf` creates the resource group and calls the shared module [`ThorstenSauter/cloudflare-azure-static-web-app`](https://github.com/ThorstenSauter/cloudflare-azure-static-web-app) (pinned with `?ref=X.Y.Z`, bumped by Renovate). The module owns the Azure Static Web App (Free SKU by default, `repository_*` ignored because CI deploys the content), the Cloudflare DNS records (DNS-only, zone looked up by `cloudflare_zone_name`) and both custom domains: the apex with `dns-txt-token` validation and a CNAME Cloudflare flattens, and `www` with `cname-delegation` after a 120s propagation wait. Change domain or DNS behaviour in the module, not here. Resource names follow `<type>-${app_name}-${env}-${resource_id}`.
 
-`moved.tf` maps the resources this repo used to define directly onto the module's addresses. Don't delete it, and don't rename the module call (`module.static_web_app`): either would make Terraform recreate the Static Web App and its custom domains.
+Don't rename the module call (`module.static_web_app`): Terraform would recreate the Static Web App and its custom domains. A rename needs a `moved` block.
 
 The `deployment_token` output is the Static Web App's API key. CI reads it with `terraform output -raw deployment_token` to deploy the site, so don't remove or rename it.
 
