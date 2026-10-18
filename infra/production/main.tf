@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "static_web_app" {
-  source               = "github.com/ThorstenSauter/cloudflare-azure-static-web-app?ref=1.1.0"
+  source               = "github.com/ThorstenSauter/cloudflare-azure-static-web-app?ref=1.2.0"
   name                 = "stapp-${var.app_name}-${var.env}-${var.resource_id}"
   resource_group_name  = azurerm_resource_group.main.name
   location             = azurerm_resource_group.main.location
