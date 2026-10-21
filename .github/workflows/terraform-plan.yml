@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
-  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,6 +16,9 @@ jobs:
   validate:
     name: Validate Terraform configuration
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -30,7 +31,13 @@ jobs:
   plan-production:
     name: Plan production environment
     runs-on: ubuntu-latest
-    environment: production
+    # Read-only credentials: a Reader identity and a Zone:Read/DNS:Read Cloudflare token. Only the
+    # deploy workflow uses the production environment, which is restricted to main.
+    environment: plan-production
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
     env:
       ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
