@@ -18,7 +18,7 @@ concurrency:
 jobs:
   apply-production:
     name: Apply production environment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     environment: production
     env:
       ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
@@ -43,7 +43,8 @@ jobs:
     name: Deploy to production Azure Static Web App
     needs:
       - apply-production
-    runs-on: ubuntu-latest
+    # x64: Azure/static-web-apps-deploy runs in an x64-only Docker image.
+    runs-on: ubuntu-26.04
     environment: production
     env:
       ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}

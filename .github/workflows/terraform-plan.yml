@@ -15,7 +15,7 @@ concurrency:
 jobs:
   validate:
     name: Validate Terraform configuration
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     permissions:
       contents: read
       pull-requests: write
@@ -30,7 +30,7 @@ jobs:
 
   plan-production:
     name: Plan production environment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     # Read-only credentials: a Reader identity and a Zone:Read/DNS:Read Cloudflare token. Only the
     # deploy workflow uses the production environment, which is restricted to main.
     environment: plan-production
