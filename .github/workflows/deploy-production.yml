@@ -31,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Terraform apply
-        uses: ThorstenSauter/terraform-actions/apply@f4c5a856f2401bb96f67794d5761482fd759ed24 # v1.9.0
+        uses: ThorstenSauter/terraform-actions/apply@f0616cec731296f27ee7ca06cfce7bb3ffba954f # v1.9.1
         with:
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
           resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
@@ -57,7 +57,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Terraform init
-        uses: ThorstenSauter/terraform-actions/init@f4c5a856f2401bb96f67794d5761482fd759ed24 # v1.9.0
+        uses: ThorstenSauter/terraform-actions/init@f0616cec731296f27ee7ca06cfce7bb3ffba954f # v1.9.1
         with:
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
           resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
