@@ -29,9 +29,9 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
       - name: Terraform apply
-        uses: ThorstenSauter/terraform-actions/apply@f0616cec731296f27ee7ca06cfce7bb3ffba954f # v1.9.1
+        uses: ThorstenSauter/terraform-actions/apply@v1.9.1
         with:
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
           resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
@@ -43,7 +43,7 @@ jobs:
     name: Deploy to production Azure Static Web App
     needs:
       - apply-production
-    # x64: Azure/static-web-apps-deploy runs in an x64-only Docker image.
+    # x64: the Static Web Apps CLI has no arm64 build (Azure/static-web-apps-cli#987).
     runs-on: ubuntu-26.04
     environment: production
     env:
@@ -55,9 +55,9 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
       - name: Terraform init
-        uses: ThorstenSauter/terraform-actions/init@f0616cec731296f27ee7ca06cfce7bb3ffba954f # v1.9.1
+        uses: ThorstenSauter/terraform-actions/init@v1.9.1
         with:
           infra-directory: ${{ vars.TF_WORKING_DIRECTORY }}
           resource-group: ${{ vars.TF_BACKEND_RESOURCE_GROUP_NAME }}
@@ -74,12 +74,11 @@ jobs:
           token=$(terraform output -raw deployment_token)
           echo "::add-mask::$token"
           echo "deployment-token=$token" >> "$GITHUB_OUTPUT"
+      # Pinned in tools/swa-cli. Install scripts stay off: the only package that has one is keytar, an
+      # optional credential store the token-based deploy never loads.
+      - name: Install the Static Web Apps CLI
+        run: npm ci --prefix tools/swa-cli --ignore-scripts --no-audit --no-fund
       - name: Deploy to Azure Static Web Apps
-        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9 # v1
-        with:
-          azure_static_web_apps_api_token: ${{ steps.token-retrieval.outputs.deployment-token }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/src"
-          skip_api_build: true
-          skip_app_build: true
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: ${{ steps.token-retrieval.outputs.deployment-token }}
+        run: npm exec --prefix tools/swa-cli --no -- swa deploy src --env production
