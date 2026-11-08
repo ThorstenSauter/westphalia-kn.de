@@ -1,0 +1,14 @@
+{
+  "name": "ewlv-swa-cli",
+  "private": true,
+  "description": "Pins the Azure Static Web Apps CLI and its dependencies for the Static Web App deployments in .github/workflows.",
+  "dependencies": {
+    "@azure/static-web-apps-cli": "2.1.0"
+  },
+  "overrides": {
+    "@azure/msal-node": "7.2.1",
+    "adm-zip": "0.6.1",
+    "tmp": "0.2.7",
+    "selfsigned": "5.5.0"
+  }
+}

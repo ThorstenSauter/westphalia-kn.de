@@ -39,6 +39,6 @@ cd .. && tflint --init && tflint --recursive
 ## CI/CD (`.github/workflows/`)
 
 - **PRs to `main`** (`terraform-plan.yml`): validate + plan the production environment in `plan-production`, which holds read-only credentials (a Reader managed identity and a Zone:Read/DNS:Read Cloudflare token). `production`, with write access, is restricted to `main` and used only by the deploy. Uses reusable actions from `ThorstenSauter/terraform-actions`.
-- **Push to `main`** (`deploy-production.yml`): `terraform apply`, then a refresh-only apply so the `deployment_token` output reflects the current (possibly rotated) API key, then `Azure/static-web-apps-deploy` uploads `src/`. Runs are serialized by a non-cancelling `concurrency` group.
+- **Push to `main`** (`deploy-production.yml`): `terraform apply`, then a refresh-only apply so the `deployment_token` output reflects the current (possibly rotated) API key, then the Static Web Apps CLI pinned in `tools/swa-cli` uploads `src/` (`swa deploy src --env production`). Runs are serialized by a non-cancelling `concurrency` group.
 
-Merging to `main` applies infrastructure changes to production immediately. Actions are pinned by commit SHA with a version comment; keep that convention when editing workflows.
+Merging to `main` applies infrastructure changes to production immediately. Actions are referenced by full version tag (`@vX.Y.Z`) and `.github/workflows/actions.lock` locks the commits; after changing a `uses:` line by hand, run `gh actions-lock` and commit the lockfile.
