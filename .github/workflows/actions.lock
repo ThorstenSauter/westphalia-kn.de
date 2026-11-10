@@ -5,10 +5,10 @@ version: 'v0.0.3'
 workflows:
     '.github/workflows/deploy-production.yml':
         - 'actions/checkout@v7.0.1'
-        - 'thorstensauter/terraform-actions@v1.9.1'
+        - 'thorstensauter/terraform-actions@v1.9.2'
     '.github/workflows/terraform-plan.yml':
         - 'actions/checkout@v7.0.1'
-        - 'thorstensauter/terraform-actions@v1.9.1'
+        - 'thorstensauter/terraform-actions@v1.9.2'
 dependencies:
     'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae':
         ref: 'v5.0.5'
@@ -30,7 +30,7 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3':
+    'actions/github-script@v9.0.0':
         ref: 'v9.0.0'
         commit: 'sha1-3a2844b7e9c422d3c10d287c895573f7108da1b3'
         owner_id: 44036562
@@ -43,7 +43,7 @@ dependencies:
         uses:
             - 'actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb'
             - 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8'
-    'aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25':
+    'aquasecurity/trivy-action@v0.36.0':
         ref: 'v0.36.0'
         commit: 'sha1-ed142fd0673e97e23eac54620cfb913e5ce36c25'
         owner_id: 12783832
@@ -51,23 +51,23 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514'
-    'hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e':
+    'hashicorp/setup-terraform@v4.0.1':
         ref: 'v4.0.1'
         commit: 'sha1-dfe3c3f87815947d99a8997f908cb6525fc44e9e'
         owner_id: 761456
         repo_id: 258271226
-    'terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337':
+    'terraform-linters/setup-tflint@v6.3.2':
         ref: 'v6.3.2'
         commit: 'sha1-6ffdbaa3be476b3431f7275c26966ef32ff60337'
         owner_id: 54197850
         repo_id: 281705852
-    'thorstensauter/terraform-actions@v1.9.1':
-        ref: 'v1.9.1'
-        commit: 'sha1-f0616cec731296f27ee7ca06cfce7bb3ffba954f'
+    'thorstensauter/terraform-actions@v1.9.2':
+        ref: 'v1.9.2'
+        commit: 'sha1-9adcfa590a3752b68f6e3cad46479c027d06ae36'
         owner_id: 43311536
         repo_id: 832312642
         uses:
-            - 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3'
-            - 'aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25'
-            - 'hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e'
-            - 'terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337'
+            - 'actions/github-script@v9.0.0'
+            - 'aquasecurity/trivy-action@v0.36.0'
+            - 'hashicorp/setup-terraform@v4.0.1'
+            - 'terraform-linters/setup-tflint@v6.3.2'
